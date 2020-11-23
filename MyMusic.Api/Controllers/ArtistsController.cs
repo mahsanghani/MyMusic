@@ -43,11 +43,14 @@ namespace MyMusic.Api.Controllers
         [HttpPost("")]
         public async Task<ActionResult<ArtistResource>> CreateArtist([FromBody] SaveArtistResource saveArtistResource)
         {
-            var validator = new SaveArtistResourceValidator();
+            /*var validator = new SaveArtistResourceValidator();
             var validationResult = await validator.ValidateAsync(saveArtistResource);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);*/
+            // this needs refining, but for demo it is ok
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var artistToCreate = _mapper.Map<SaveArtistResource, Artist>(saveArtistResource);
 
@@ -63,11 +66,14 @@ namespace MyMusic.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ArtistResource>> UpdateArtist(int id, [FromBody] SaveArtistResource saveArtistResource)
         {
-            var validator = new SaveArtistResourceValidator();
+            /*var validator = new SaveArtistResourceValidator();
             var validationResult = await validator.ValidateAsync(saveArtistResource);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);*/ 
+            // this needs refining, but for demo it is ok
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var artistToBeUpdated = await _artistService.GetArtistById(id);
 

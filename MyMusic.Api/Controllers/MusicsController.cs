@@ -1,7 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MyMusic.Api.Resources;
 using MyMusic.Api.Validations;
@@ -44,11 +45,14 @@ namespace MyMusic.Api.Controllers
         [HttpPost("")]
         public async Task<ActionResult<MusicResource>> CreateMusic([FromBody] SaveMusicResource saveMusicResource)
         {
-            var validator = new SaveMusicResourceValidator();
+            /*var validator = new SaveMusicResourceValidator();
             var validationResult = await validator.ValidateAsync(saveMusicResource);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);*/ 
+            // this needs refining, but for demo it is ok
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var musicToCreate = _mapper.Map<SaveMusicResource, Music>(saveMusicResource);
 
@@ -64,13 +68,16 @@ namespace MyMusic.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<MusicResource>> UpdateMusic(int id, [FromBody] SaveMusicResource saveMusicResource)
         {
-            var validator = new SaveMusicResourceValidator();
+            /*var validator = new SaveMusicResourceValidator();
             var validationResult = await validator.ValidateAsync(saveMusicResource);
 
             var requestIsInvalid = id == 0 || !validationResult.IsValid;
 
             if (requestIsInvalid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);*/ 
+            // this needs refining, but for demo it is ok
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var musicToBeUpdate = await _musicService.GetMusicById(id);
 

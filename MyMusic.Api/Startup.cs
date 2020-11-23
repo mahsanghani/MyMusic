@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using MyMusic.Core;
 using MyMusic.Core.Services;
 using MyMusic.Data;
+using MyMusic.Services;
 
 namespace MyMusic.Api
 {
@@ -38,6 +39,15 @@ namespace MyMusic.Api
             });
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddControllers().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            });
+
+            services.AddMvc(setup => {
+                //...mvc setup...
+            }).AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
